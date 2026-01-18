@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_proj/register_controller.dart';
 import 'package:get/get.dart';
-import 'package:get/utils.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -12,6 +11,7 @@ class RegistrationScreen extends StatefulWidget {
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
   final UserController usercontroller = Get.put(UserController());
+
   final nameCtrl = TextEditingController();
   final emailCtrl = TextEditingController();
   final passwordCtrl = TextEditingController();
@@ -64,26 +64,34 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     hintText: 'Enter avatar URL',
                   ),
                 ),
-                ElevatedButton(
-                  onPressed: () 
-                  {
-                    print(  nameCtrl.text);
-                    print(  emailCtrl.text);  
-                    print(  passwordCtrl.text);
-                    print(  avatarCtrl.text);
-                    
-                    usercontroller.createUser(
-                      name: nameCtrl.text,
-                      email: emailCtrl.text,
-                      password: passwordCtrl.text,
-                      avatarUrl: avatarCtrl.text,
-                    );
-                  }, child: null,
-                )],
-            ), 
+                const SizedBox(height: 20),
+
+                Obx(() {
+                  return ElevatedButton(
+                    onPressed: usercontroller.isLoading.value
+                        ? null
+                        : () {
+                            usercontroller.createUser(
+                              name: nameCtrl.text.trim(),
+                              email: emailCtrl.text.trim(),
+                              password: passwordCtrl.text,
+                              avatarUrl: avatarCtrl.text.trim(),
+                            );
+                          },
+                    child: usercontroller.isLoading.value
+                        ? const SizedBox(
+                            width: 18,
+                            height: 18,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : const Text("Register"),
+                  );
+                }),
+              ],
             ),
           ),
         ),
+      ),
     );
   }
 }
