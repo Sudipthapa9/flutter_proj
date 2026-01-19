@@ -1,51 +1,43 @@
-import 'package:dio/dio.dart';
 import 'package:flutter_proj/dio_client.dart';
 import 'package:flutter_proj/usermodel.dart';
 import 'package:get/get.dart';
 
-class UserController extends Getxcontroller {
- final Apiservice apiService = Apiservice();
+class UserController extends GetxController {
+  final ApiService apiService = ApiService();
 
-  var isLoading = false.obs;
+  final RxBool isLoading = false.obs;
 
-  Future<void> createUser(
-    {
-      required String name,
-      required String email,
-      required String password,
-      required String avatarUrl,
-    }
-  ) async {
-   try{
-     isLoading.value = true;
-    final user = UserModel(
-      name: name,
-      email: email,
-      password: password,
-      avatarUrl: avatarUrl,
-    );
+  Future<void> createUser({
+    required String name,
+    required String email,
+    required String password,
+    required String avatarUrl,
+  }) async {
+    isLoading.value = true;
 
-    await apiService.createUser(user);
-    isLoading = false.obs;
-    Get.snackbar("Success", "User registered successfully" , snackPosition: SnackPosition.BOTTOM);
-    Get.showSnackbar(GetSnackBar(
-      title: "Success",
-      message: "User registered successfully",
-      duration: Duration(seconds: 3),
-    ));
-   } catch (e) {
-    isLoading = false.obs;
-    Get.snackbar("Error", "Failed to register user: $e");  
-    Get.showSnackbar(GetSnackBar(
-      title: "Error",
-      message: "Failed to register user: $e",
-      duration: Duration(seconds: 3),
-    ));  
-  }
-    finally {
+    try {
+      final user = UserModel(
+        name: name,
+        email: email,
+        password: password,
+        avatarUrl: avatarUrl, // if your model uses "avatar", change this line
+      );
+
+      await apiService.createUser(user);
+
+      Get.snackbar(
+        "Success",
+        "User registered successfully",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } catch (e) {
+      Get.snackbar(
+        "Error",
+        "Failed to register user: $e",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } finally {
       isLoading.value = false;
     }
-    }
+  }
 }
-class Getxcontroller {
-} 

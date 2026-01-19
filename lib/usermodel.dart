@@ -23,5 +23,7 @@ class UserModel {
     };
   }
 
+  Object? toJson() {}
+
   
 }

@@ -43,3 +43,22 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+# Flutter/Dart
+.dart_tool/
+build/
+.pub/
+.packages
+
+# Android
+android/.gradle/
+android/app/build/
+android/app/.cxx/
+
+# iOS (if you have ios folder)
+ios/Pods/
+ios/.symlinks/
+.dart_tool/
+build/
+android/.gradle/
+android/app/build/
+ios/Pods/
