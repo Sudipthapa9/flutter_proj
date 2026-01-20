@@ -26,6 +26,10 @@ class ApiService {
           // options.headers['Authorization'] = 'Bearer YOUR_TOKEN_HERE';
           handler.next(options);
         },
+        onResponse: (response, handler) {
+          print(response.data);
+          handler.next(response);
+        },
       ),
     );
   }
